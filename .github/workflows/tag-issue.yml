@@ -32,7 +32,7 @@ jobs:
       - name: Tag Issue
         run: |
           gh issue edit ${{ github.event.issue.number }} --add-label $LABEL_NAME --repo ${{ github.event.repository.full_name }};
-          echo ':label: Issue #`${{ env.ISSUE_NUMBER }}` has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+          echo ':label: Issue #${{ env.ISSUE_NUMBER }} has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
 
         env:
           GITHUB_TOKEN: ${{ github.token }}
