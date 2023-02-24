@@ -11,5 +11,5 @@ jobs:
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
-        run: gh issue edit ${{ github.event.issue.number }} --add-label un-released
+        run: gh issue edit ${{ github.event.issue.number }} --add-label un-released --repo ${{ github.event.repository.full_name }}
       - run: echo '# Issue was closed and has been tagged as `un-released`' >> $GITHUB_STEP_SUMMARY
