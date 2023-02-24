@@ -15,14 +15,14 @@ jobs:
 
     steps:
 
-      - name: Get `$LABEL_NAME` label
+      - name: Get `${{ env.LABEL_NAME }}` label
         id: label-list
         run: echo label=$(gh label list --search $LABEL_NAME -L 1 --json name -q '.[].name' --repo $REPO) >> GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Create label if does not exist
-        if: ${{ steps.label-list.outputs.label != $LABEL_NAME }}
+        if: ${{ steps.label-list.outputs.label != env.LABEL_NAME }}
         run: |
           gh label create $LABEL_NAME --color e3fce3 --repo $REPO;
           echo ':neckbeard: Created the `$LABEL_NAME` label !' >> $GITHUB_STEP_SUMMARY;
