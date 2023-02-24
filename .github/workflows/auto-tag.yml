@@ -1,23 +1,26 @@
-name: Tag closed issues as un-released
+name: Auto Tag
 
 on:
   issues:
     types: [reopened, closed]
+  pull_request:
+    types: [closed]
+
+env:
+  LABEL_NAME: un-released
 
 jobs:
+
   setup-labels:
     runs-on: ubuntu-latest
     env:
-      LABEL_NAME: un-released
       REPO: ${{ github.event.repository.full_name }}
-
     steps:
       - name: Get `${{ env.LABEL_NAME }}` label
         id: label-list
         run: echo label=$(gh label list --search $LABEL_NAME -L 1 --json name -q '.[].name' --repo $REPO) >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
       - name: Create label if does not exist
         if: ${{ steps.label-list.outputs.label != env.LABEL_NAME }}
         run: |
@@ -30,14 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.state_reason == 'completed' }}
     env:
-      LABEL_NAME: un-released
       REPO: ${{ github.event.repository.full_name }}
       ISSUE_NUMBER: ${{ github.event.issue.number }}
-
     steps:
       - name: Tag Issue
         run: |
-          gh issue edit ${{ github.event.issue.number }} --add-label $LABEL_NAME --repo ${{ github.event.repository.full_name }};
+          gh issue edit $ISSUE_NUMBER --add-label $LABEL_NAME --repo $REPO;
           echo ':label: Issue ${{ github.event.issue.html_url }} has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -46,14 +47,26 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.state_reason == 'reopened' }}
     env:
-      LABEL_NAME: un-released
       REPO: ${{ github.event.repository.full_name }}
       ISSUE_NUMBER: ${{ github.event.issue.number }}
-
     steps:
       - name: Untag Issue
         run: |
-          gh issue edit ${{ github.event.issue.number }} --remove-label $LABEL_NAME --repo ${{ github.event.repository.full_name }};
-          echo ':label: Issue ${{ github.event.issue.html_url }} has been untagged of `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+          gh issue edit $ISSUE_NUMBER --remove-label $LABEL_NAME --repo $REPO;
+          echo ':recycle: Issue ${{ github.event.issue.html_url }} has been untagged of `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  tag-merged-prs:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.state == 'merged' }}
+    env:
+      REPO: ${{ github.event.repository.full_name }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Tag PR
+        run: |
+          gh pr edit $PR_NUMBER --add-label $LABEL_NAME --repo $REPO;
+          echo ':label: PR ${{ github.event.pull_request.html_url }} was merged and has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
