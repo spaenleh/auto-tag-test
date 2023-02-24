@@ -16,8 +16,8 @@ jobs:
       - run:
           LABEL_EXISTS=$(gh label list --search un-released --repo $REPO)
           if [ $LABEL_EXISTS = '' ]; then
-            gh label create un-released --color f1faee
-            echo 'Created the `un-released` label !' >> $GITHUB_STEP_SUMMARY
+              gh label create un-released --color f1faee;
+              echo 'Created the `un-released` label !' >> $GITHUB_STEP_SUMMARY;
           fi
         env:
           GH_TOKEN: ${{ github.token }}
