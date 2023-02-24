@@ -8,8 +8,22 @@ jobs:
   tag-closed-issues:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.state_reason == 'completed' }}
+    env:
+      REPO: ${{ github.event.repository.full_name }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+
     steps:
-      - env:
+      - run:
+          LABEL_EXISTS=$(gh label list --search un-released --repo $REPO)
+          if [ $LABEL_EXISTS = '' ]; then
+            gh label create un-released --color f1faee
+            echo 'Created the `un-released` label !' >> $GITHUB_STEP_SUMMARY
+          fi
+        env:
           GH_TOKEN: ${{ github.token }}
-        run: gh issue edit ${{ github.event.issue.number }} --add-label un-released --repo ${{ github.event.repository.full_name }}
+
+      - run: gh issue edit ${{ github.event.issue.number }} --add-label un-released --repo ${{ github.event.repository.full_name }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - run: echo '# Issue was closed and has been tagged as `un-released`' >> $GITHUB_STEP_SUMMARY
