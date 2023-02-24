@@ -17,7 +17,7 @@ jobs:
 
       - name: Get `${{ env.LABEL_NAME }}` label
         id: label-list
-        run: echo label=$(gh label list --search $LABEL_NAME -L 1 --json name -q '.[].name' --repo $REPO) >> GITHUB_OUTPUT
+        run: echo label=$(gh label list --search $LABEL_NAME -L 1 --json name -q '.[].name' --repo $REPO) >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
