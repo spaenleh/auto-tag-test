@@ -59,7 +59,7 @@ jobs:
 
   tag-merged-prs:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.state == 'merged' }}
+    if: ${{ github.event.pull_request.merged }}
     env:
       REPO: ${{ github.event.repository.full_name }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
