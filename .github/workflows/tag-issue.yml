@@ -7,8 +7,7 @@ on:
 jobs:
   tag-closed-issues:
     runs-on: ubuntu-latest
+    if: ${{ github.event.issue.state_reason == 'completed' }}
     steps:
-      - run: jq ${{ toJson(github.event) }}
-      - run: gh issue edit ${{ github.event.number }} --add-label un-released
+      - run: gh issue edit ${{ github.event.issue.number }} --add-label un-released
       - run: echo '# Issue was closed and has been tagged as `un-released`' >> $GITHUB_STEP_SUMMARY
-        if: ${{ github.event.state_reason == 'completed' }}
