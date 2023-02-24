@@ -9,5 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.state_reason == 'completed' }}
     steps:
-      - run: gh issue edit ${{ github.event.issue.number }} --add-label un-released
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue edit ${{ github.event.issue.number }} --add-label un-released
       - run: echo '# Issue was closed and has been tagged as `un-released`' >> $GITHUB_STEP_SUMMARY
