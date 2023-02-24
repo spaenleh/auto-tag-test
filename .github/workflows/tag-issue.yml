@@ -25,14 +25,14 @@ jobs:
         if: ${{ steps.label-list.outputs.label != env.LABEL_NAME }}
         run: |
           gh label create $LABEL_NAME --color e3fce3 --repo $REPO;
-          echo ':neckbeard: Created the `$LABEL_NAME` label !' >> $GITHUB_STEP_SUMMARY;
+          echo ':neckbeard: Created the `${{ env.LABEL_NAME }}` label !' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Tag Issue
         run: |
           gh issue edit ${{ github.event.issue.number }} --add-label $LABEL_NAME --repo ${{ github.event.repository.full_name }};
-          echo ':label: Issue #`$ISSUE_NUMBER` has been tagged as `$LABEL_NAME`' >> $GITHUB_STEP_SUMMARY;
+          echo ':label: Issue #`${{ env.ISSUE_NUMBER }}` has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
 
         env:
           GITHUB_TOKEN: ${{ github.token }}
