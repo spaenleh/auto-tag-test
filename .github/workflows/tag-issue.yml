@@ -22,16 +22,16 @@ jobs:
 
       - name: Create label if does not exist
         if: ${{ steps.label-list.outputs.label == '' }}
-        run:
+        run: |
           gh label create un-released --color e3fce3 --repo $REPO;
-          echo 'Created the `un-released` label !' >> $GITHUB_STEP_SUMMARY;
+          echo ':neckbeard: Created the `un-released` label !' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Tag Issue
         run: |
           gh issue edit ${{ github.event.issue.number }} --add-label un-released --repo ${{ github.event.repository.full_name }};
-          echo ':tag: Issue #`$ISSUE_NUMBER` has been tagged as `un-released`' >> $GITHUB_STEP_SUMMARY;
+          echo ':label: Issue #`$ISSUE_NUMBER` has been tagged as `un-released`' >> $GITHUB_STEP_SUMMARY;
 
         env:
           GITHUB_TOKEN: ${{ github.token }}
