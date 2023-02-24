@@ -13,15 +13,17 @@ jobs:
       ISSUE_NUMBER: ${{ github.event.issue.number }}
 
     steps:
+
       - name: Get `un-released` label
         id: label-list
         run: echo label=$(gh label list --search un-released --repo $REPO) >> GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
+
       - name: Create label if does not exist
         if: ${{ steps.label-list.outputs.label == '' }}
         run:
-          gh label create un-released --color f1faee --repo $REPO
+          gh label create un-released --color f1faee --repo $REPO;
           echo 'Created the `un-released` label !' >> $GITHUB_STEP_SUMMARY;
         env:
           GH_TOKEN: ${{ github.token }}
