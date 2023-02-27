@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/spaenleh/auto-tag-test/compare/v1.0.1...v1.0.2) (2023-02-27)
+
+
+### Bug Fixes
+
+* add released type to auto tag ([683ae66](https://github.com/spaenleh/auto-tag-test/commit/683ae660c162aa3adb2dcd68a283e55ac424fe40))
+
 ## [1.0.1](https://github.com/spaenleh/auto-tag-test/compare/v1.0.0...v1.0.1) (2023-02-27)
 
 
