@@ -8,27 +8,31 @@ on:
   pull_request:
     types:
       - closed
+  release:
+    types:
+      - published
 
 env:
-  LABEL_NAME: un-released
+  PRE_LABEL_NAME: un-released
 
 jobs:
 
   setup-labels:
+    if: ${{ !github.event.release }}
     runs-on: ubuntu-latest
     env:
       REPO: ${{ github.event.repository.full_name }}
     steps:
-      - name: Get `${{ env.LABEL_NAME }}` label
+      - name: Get `${{ env.PRE_LABEL_NAME }}` label
         id: label-list
-        run: echo label=$(gh label list --search $LABEL_NAME -L 1 --json name -q '.[].name' --repo $REPO) >> $GITHUB_OUTPUT
+        run: echo label=$(gh label list --search $PRE_LABEL_NAME -L 1 --json name -q '.[].name' --repo $REPO) >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Create label if does not exist
-        if: ${{ steps.label-list.outputs.label != env.LABEL_NAME }}
+        if: ${{ steps.label-list.outputs.label != env.PRE_LABEL_NAME }}
         run: |
-          gh label create $LABEL_NAME --color e3fce3 --repo $REPO;
-          echo ':neckbeard: Created the `${{ env.LABEL_NAME }}` label !' >> $GITHUB_STEP_SUMMARY;
+          gh label create $PRE_LABEL_NAME --color e3fce3 --repo $REPO;
+          echo ':neckbeard: Created the `${{ env.PRE_LABEL_NAME }}` label !' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -41,8 +45,8 @@ jobs:
     steps:
       - name: Tag Issue
         run: |
-          gh issue edit $ISSUE_NUMBER --add-label $LABEL_NAME --repo $REPO;
-          echo ':label: Issue ${{ github.event.issue.html_url }} has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+          gh issue edit $ISSUE_NUMBER --add-label $PRE_LABEL_NAME --repo $REPO;
+          echo ':label: Issue ${{ github.event.issue.html_url }} has been tagged as `${{ env.PRE_LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -55,8 +59,8 @@ jobs:
     steps:
       - name: Untag Issue
         run: |
-          gh issue edit $ISSUE_NUMBER --remove-label $LABEL_NAME --repo $REPO;
-          echo ':recycle: Issue ${{ github.event.issue.html_url }} has been untagged of `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+          gh issue edit $ISSUE_NUMBER --remove-label $PRE_LABEL_NAME --repo $REPO;
+          echo ':recycle: Issue ${{ github.event.issue.html_url }} has been untagged of `${{ env.PRE_LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -69,7 +73,37 @@ jobs:
     steps:
       - name: Tag PR
         run: |
-          gh pr edit $PR_NUMBER --add-label $LABEL_NAME --repo $REPO;
-          echo ':label: PR ${{ github.event.pull_request.html_url }} was merged and has been tagged as `${{ env.LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+          gh pr edit $PR_NUMBER --add-label $PRE_LABEL_NAME --repo $REPO;
+          echo ':label: PR ${{ github.event.pull_request.html_url }} was merged and has been tagged as `${{ env.PRE_LABEL_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  tag-released-issues-and-prs:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.release }}
+    env:
+      REPO: ${{ github.event.repository.full_name }}
+      TAG_NAME: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Debug
+        run: |
+          echo ${{ toJSON(github.event.release) }}
+      - name: Create label ${{ env.TAG_NAME }}
+        run: |
+          gh label create ${{ env.TAG_NAME }} -d ${{ github.event.release.description }} -f --color 0E8A16 --repo $REPO;
+          echo '### :label: `${{ env.TAG_NAME }}` :rocket:' >> $GITHUB_STEP_SUMMARY;
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as ${{ env.TAG_NAME }}
+        run: |
+          for cmd in issue pr;
+          do
+            for nbr in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number --jq '.[].number' --repo $REPO );
+            do
+              URL=$(gh $cmd edit $nbr --add-label ${{ env.TAG_NAME }} --remove-label ${{ env.PRE_LABEL_NAME }} --repo $REPO);
+              echo '- :label: $cmd #$nbr $URL was tagged as `${{ env.TAG_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+            done
+          done
+          echo ':rocket: All related issues and prs tagged !' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
