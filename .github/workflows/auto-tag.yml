@@ -9,7 +9,6 @@ on:
     types:
       - closed
   release:
-    types: [created, released, published]
 
 env:
   PRE_LABEL_NAME: un-released
