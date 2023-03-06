@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/spaenleh/auto-tag-test/compare/v1.1.0...v1.2.0) (2023-03-06)
+
+
+### Features
+
+* new feature ([94d5c7d](https://github.com/spaenleh/auto-tag-test/commit/94d5c7d82f9d54565fa9c1d80135253e538ca3a9))
+
 ## [1.1.0](https://github.com/spaenleh/auto-tag-test/compare/v1.0.2...v1.1.0) (2023-02-27)
 
 
