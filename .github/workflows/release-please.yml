@@ -19,14 +19,14 @@ jobs:
         run: |
           gh label create ${{ env.TAG_NAME }} -f --color 0E8A16 --repo $REPO;
           echo '### `${{ env.TAG_NAME }}` :rocket:' >> $GITHUB_STEP_SUMMARY;
-          echo 'Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as `${{ env.TAG_NAME }}`';
+          echo 'Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as ${{ env.TAG_NAME }}';
           for cmd in issue pr;
           do
-            for line in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number,title --jq '.[]' --repo $REPO );
+            for line in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number,title --jq '.[]' --repo ${{ env.REPO }} );
             do
               NBR=$(echo $line | jq '.number')
               TITLE=$(echo $line | jq '.title')
-              URL=$(gh $cmd edit $NBR --add-label ${{ env.TAG_NAME }} --remove-label ${{ env.PRE_LABEL_NAME }} --repo $REPO);
+              URL=$(gh $cmd edit $NBR --add-label ${{ env.TAG_NAME }} --remove-label ${{ env.PRE_LABEL_NAME }} --repo ${{ env.REPO }} );
               echo "- $cmd #$NBR [$TITLE]($URL)" >> $GITHUB_STEP_SUMMARY;
             done
           done
