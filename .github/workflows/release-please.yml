@@ -19,7 +19,7 @@ jobs:
         run: |
           gh label create ${{ env.TAG_NAME }} -f --color 0E8A16 --repo $REPO;
           echo '### `${{ env.TAG_NAME }}` :rocket:' >> $GITHUB_STEP_SUMMARY;
-          echo 'Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as ${{ env.TAG_NAME }}' >> $GITHUB_STEP_SUMMARY;
+          echo 'Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as `${{ env.TAG_NAME }}`' >> $GITHUB_STEP_SUMMARY;
           for cmd in issue pr;
           do
             for nbr in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number --jq '.[].number' --repo $REPO );
@@ -30,8 +30,10 @@ jobs:
           done
           echo '' >> $GITHUB_STEP_SUMMARY;
           echo ':rocket: All related issues and prs tagged !' >> $GITHUB_STEP_SUMMARY;
+          echo ':scroll: Check out [the created release](${{ env.RELEASE_URL }}) !' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
           TAG_NAME: ${{ steps.release-please.outputs.tag_name }}
           PRE_LABEL_NAME: un-released
           REPO: ${{ github.event.repository.full_name }}
+          RELEASE_URL: ${{ github.event.repository.html_url }}/releases/tag/${{ steps.release-please.outputs.tag_name }}
