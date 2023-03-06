@@ -15,7 +15,7 @@ jobs:
 
       - name: Auto Tag
         id: auto-tag
-        if: ${{ steps.release-please.outputs.release-created }}
+        if: ${{ steps.release-please.outputs.releases_created }}
         run: |
           gh label create ${{ env.TAG_NAME }} -d ${{ github.event.release.description }} -f --color 0E8A16 --repo $REPO;
           echo '### :label: `${{ env.TAG_NAME }}` :rocket:' >> $GITHUB_STEP_SUMMARY;
@@ -31,3 +31,5 @@ jobs:
           echo ':rocket: All related issues and prs tagged !' >> $GITHUB_STEP_SUMMARY;
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.release-please.outputs.tag_name }}
+          PRE_LABEL_NAME: un-released
