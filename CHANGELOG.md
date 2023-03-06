@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.6](https://github.com/spaenleh/auto-tag-test/compare/v1.2.5...v1.2.6) (2023-03-06)
+
+
+### Bug Fixes
+
+* add released url ([008493d](https://github.com/spaenleh/auto-tag-test/commit/008493d7bbd6c987379c09bfff54b114c11e6c34))
+
 ## [1.2.5](https://github.com/spaenleh/auto-tag-test/compare/v1.2.4...v1.2.5) (2023-03-06)
 
 
