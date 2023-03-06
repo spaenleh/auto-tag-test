@@ -25,7 +25,7 @@ jobs:
             for nbr in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number --jq '.[].number' --repo $REPO );
             do
               URL=$(gh $cmd edit $nbr --add-label ${{ env.TAG_NAME }} --remove-label ${{ env.PRE_LABEL_NAME }} --repo $REPO);
-              echo '- :label: $cmd #$nbr $URL was tagged as `${{ env.TAG_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+              echo "- :label: $cmd #$nbr $URL was tagged as `${{ env.TAG_NAME }}`" >> $GITHUB_STEP_SUMMARY;
             done
           done
           echo ':rocket: All related issues and prs tagged !' >> $GITHUB_STEP_SUMMARY;
