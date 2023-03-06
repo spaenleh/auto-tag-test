@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.5](https://github.com/spaenleh/auto-tag-test/compare/v1.2.4...v1.2.5) (2023-03-06)
+
+
+### Bug Fixes
+
+* remove empt descriptiopn ([9a192f2](https://github.com/spaenleh/auto-tag-test/commit/9a192f24b2c36e3526be38182f6300fb84c49af8))
+
 ## [1.2.4](https://github.com/spaenleh/auto-tag-test/compare/v1.2.3...v1.2.4) (2023-03-06)
 
 
