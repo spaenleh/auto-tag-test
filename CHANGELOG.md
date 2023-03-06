@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4](https://github.com/spaenleh/auto-tag-test/compare/v1.2.3...v1.2.4) (2023-03-06)
+
+
+### Bug Fixes
+
+* formatting of output ([a2cbccb](https://github.com/spaenleh/auto-tag-test/commit/a2cbccb601e461e141f2eebbc0300f850f1310c7))
+
 ## [1.2.3](https://github.com/spaenleh/auto-tag-test/compare/v1.2.2...v1.2.3) (2023-03-06)
 
 
