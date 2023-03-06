@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/spaenleh/auto-tag-test/compare/v1.2.0...v1.2.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* workflow ([90ad6e8](https://github.com/spaenleh/auto-tag-test/commit/90ad6e8cf55c8d08c6f80b1fb72fe89148c839f4))
+
 ## [1.2.0](https://github.com/spaenleh/auto-tag-test/compare/v1.1.0...v1.2.0) (2023-03-06)
 
 
