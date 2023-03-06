@@ -33,3 +33,4 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           TAG_NAME: ${{ steps.release-please.outputs.tag_name }}
           PRE_LABEL_NAME: un-released
+          REPO: ${{ github.event.repository.full_name }}
