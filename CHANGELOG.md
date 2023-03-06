@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.8](https://github.com/spaenleh/auto-tag-test/compare/v1.2.7...v1.2.8) (2023-03-06)
+
+
+### Bug Fixes
+
+* yolo ([2f918f3](https://github.com/spaenleh/auto-tag-test/commit/2f918f39ec382d0354c2be3f1aa83008b3dda78f))
+
 ## [1.2.7](https://github.com/spaenleh/auto-tag-test/compare/v1.2.6...v1.2.7) (2023-03-06)
 
 
