@@ -8,6 +8,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
+        id: release-please
         with:
           release-type: simple
           package-name: auto-tag
+
+      - name: Auto Tag
+        id: auto-tag
+        if: ${{ steps.release-please.outputs.release-created }}
+        run: |
+          gh label create ${{ env.TAG_NAME }} -d ${{ github.event.release.description }} -f --color 0E8A16 --repo $REPO;
+          echo '### :label: `${{ env.TAG_NAME }}` :rocket:' >> $GITHUB_STEP_SUMMARY;
+          echo 'Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as ${{ env.TAG_NAME }}' >> $GITHUB_STEP_SUMMARY;
+          for cmd in issue pr;
+          do
+            for nbr in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number --jq '.[].number' --repo $REPO );
+            do
+              URL=$(gh $cmd edit $nbr --add-label ${{ env.TAG_NAME }} --remove-label ${{ env.PRE_LABEL_NAME }} --repo $REPO);
+              echo '- :label: $cmd #$nbr $URL was tagged as `${{ env.TAG_NAME }}`' >> $GITHUB_STEP_SUMMARY;
+            done
+          done
+          echo ':rocket: All related issues and prs tagged !' >> $GITHUB_STEP_SUMMARY;
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
