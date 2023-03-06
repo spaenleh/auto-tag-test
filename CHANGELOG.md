@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/spaenleh/auto-tag-test/compare/v1.2.1...v1.2.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* add repo variables ([45f5e01](https://github.com/spaenleh/auto-tag-test/commit/45f5e01b20a9dc9f2f9cf6af065413ee0081a878))
+
 ## [1.2.1](https://github.com/spaenleh/auto-tag-test/compare/v1.2.0...v1.2.1) (2023-03-06)
 
 
