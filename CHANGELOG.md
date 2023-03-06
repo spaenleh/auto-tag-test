@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/spaenleh/auto-tag-test/compare/v1.2.2...v1.2.3) (2023-03-06)
+
+
+### Bug Fixes
+
+* double quotes to allow inference ([e29cf1b](https://github.com/spaenleh/auto-tag-test/commit/e29cf1bd60f0667bd555951e82fa6285ace0b45a))
+
 ## [1.2.2](https://github.com/spaenleh/auto-tag-test/compare/v1.2.1...v1.2.2) (2023-03-06)
 
 
