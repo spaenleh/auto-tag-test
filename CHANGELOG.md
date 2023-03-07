@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.10](https://github.com/spaenleh/auto-tag-test/compare/v1.2.9...v1.2.10) (2023-03-07)
+
+
+### Bug Fixes
+
+* iteration issue ([d8c64dc](https://github.com/spaenleh/auto-tag-test/commit/d8c64dcb8a333c572d86662ef793c49aa7550eb5))
+
 ## [1.2.9](https://github.com/spaenleh/auto-tag-test/compare/v1.2.8...v1.2.9) (2023-03-07)
 
 
