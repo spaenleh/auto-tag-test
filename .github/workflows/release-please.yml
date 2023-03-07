@@ -17,7 +17,7 @@ jobs:
         id: auto-tag
         if: ${{ steps.release-please.outputs.releases_created }}
         run: |
-          gh label create ${{ env.TAG_NAME }} -f --color 0E8A16 --repo $REPO;
+          gh label create ${{ env.TAG_NAME }} -f --color 0E8A16 --repo ${{ env.REPO }};
           echo '### `${{ env.TAG_NAME }}` :rocket:' >> $GITHUB_STEP_SUMMARY;
           echo 'Tag all ${{ env.PRE_LABEL_NAME }} issues and prs as ${{ env.TAG_NAME }}';
           for cmd in issue pr;
@@ -25,7 +25,7 @@ jobs:
             for nbr in $(gh $cmd list -l ${{ env.PRE_LABEL_NAME }} -s all --json number --jq '.[].number' --repo ${{ env.REPO }} );
             do
               URL=$(gh $cmd edit $nbr --add-label ${{ env.TAG_NAME }} --remove-label ${{ env.PRE_LABEL_NAME }} --repo ${{ env.REPO }} );
-              echo "- $cmd #$NBR $URL" >> $GITHUB_STEP_SUMMARY;
+              echo "- $cmd #$nbr $URL" >> $GITHUB_STEP_SUMMARY;
             done
           done
           echo '' >> $GITHUB_STEP_SUMMARY;
