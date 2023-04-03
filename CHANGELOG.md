@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.12](https://github.com/spaenleh/auto-tag-test/compare/v1.2.11...v1.2.12) (2023-04-03)
+
+
+### Bug Fixes
+
+* loop variable ([b787a33](https://github.com/spaenleh/auto-tag-test/commit/b787a334025d34960dfe7d232e34ce0ce1abefe3))
+* use composite ([fed7e1d](https://github.com/spaenleh/auto-tag-test/commit/fed7e1da93beab3d03b480c47cd700fab2978c5a))
+
 ## [1.2.11](https://github.com/spaenleh/auto-tag-test/compare/v1.2.10...v1.2.11) (2023-03-07)
 
 
